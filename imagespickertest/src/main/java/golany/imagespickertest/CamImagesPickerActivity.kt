@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.animation.AlphaAnimation
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -68,6 +69,9 @@ class CamImagesPickerActivity : AppCompatActivity() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     outputFileResults.savedUri?.let {
                         sound.playShutter()
+                        binding.camView.startAnimation(
+                            AlphaAnimation(1f,0f).apply { duration = 50 }
+                        )
                         images.value = images.value?.apply { add(it) }?.toMutableList()
                     }
                 }
