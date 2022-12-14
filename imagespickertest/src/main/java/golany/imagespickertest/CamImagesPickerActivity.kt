@@ -1,5 +1,7 @@
 package golany.imagespickertest
 
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +15,7 @@ import com.google.common.util.concurrent.ListenableFuture
 import golany.imagespickertest.databinding.ActivityCamImagesPickerBinding
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 
 class CamImagesPickerActivity : AppCompatActivity() {
 
@@ -58,6 +61,16 @@ class CamImagesPickerActivity : AppCompatActivity() {
 
         }
         //endregion
+
+        binding.btnConfirm.setOnClickListener {
+            val data = Intent().apply {
+                putParcelableArrayListExtra(
+                    Const.EXTRA_SELECTED_URIS, images.value?.let { it1 -> ArrayList(it1) }
+                )
+            }
+            setResult(Activity.RESULT_OK, data)
+            finish()
+        }
 
     }
 

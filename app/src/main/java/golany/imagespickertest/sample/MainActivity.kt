@@ -1,7 +1,9 @@
 package golany.imagespickertest.sample
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import golany.imagespickertest.builder.CamImagePicker
 
@@ -10,7 +12,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         findViewById<Button>(R.id.btn_start_images).setOnClickListener {
-            CamImagePicker.with(this).startGetImages {  }
+            CamImagePicker.with(this).startGetImages {
+                Log.d("xorm","imgUris: ${it}")
+            }
         }
     }
+
 }

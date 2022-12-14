@@ -1,12 +1,11 @@
 package golany.imagespickertest.builder
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Parcelable
+import com.gun0912.tedonactivityresult.TedOnActivityResult
 import golany.imagespickertest.CamImagesPickerActivity
+import golany.imagespickertest.Const
 
 class CamImagePicker {
 
@@ -18,16 +17,17 @@ class CamImagePicker {
 
     class Builder(private val context: Context) : CamImagePickerBaseBuilder() {
 
-        var imagesRecv: (List<Uri>) -> Unit = {}
-
         fun startGetImages(action: (List<Uri>) -> Unit){
-            imagesRecv = action
 
-            (context as Activity).startActivityForResult(
-                Intent(context, CamImagesPickerActivity::class.java).apply{
-                    putExtra("BUILDER", this@Builder)
-                }, 1
-            )
+            TedOnActivityResult.with(context)
+                .setIntent(
+                    Intent(context, CamImagesPickerActivity::class.java).apply{ putExtra(Const.EXTRA_BUILDER, this@Builder) }
+                )
+                .setListener { resultCode, data ->
+                    data.getParcelableArrayListExtra<Uri>(Const.EXTRA_SELECTED_URIS)?.let { action(it) }
+                }
+                .startActivityForResult()
+
         }
 
     }
