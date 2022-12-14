@@ -1,5 +1,6 @@
 package golany.imagespickertest.builder
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -24,7 +25,11 @@ class CamImagePicker {
                     Intent(context, CamImagesPickerActivity::class.java).apply{ putExtra(Const.EXTRA_BUILDER, this@Builder) }
                 )
                 .setListener { resultCode, data ->
-                    data.getParcelableArrayListExtra<Uri>(Const.EXTRA_SELECTED_URIS)?.let { action(it) }
+                    if(resultCode == Activity.RESULT_OK){
+                        data.getParcelableArrayListExtra<Uri>(Const.EXTRA_SELECTED_URIS)?.let { action(it) }
+                    }else if(resultCode == Activity.RESULT_CANCELED){
+
+                    }
                 }
                 .startActivityForResult()
 
