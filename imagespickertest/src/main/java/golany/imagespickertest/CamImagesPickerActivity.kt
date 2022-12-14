@@ -27,6 +27,8 @@ class CamImagesPickerActivity : AppCompatActivity() {
 
     private val imageCapture = ImageCapture.Builder().build()
 
+    private val sound = Sound()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.apply { activity = this@CamImagesPickerActivity }.root)
@@ -65,6 +67,7 @@ class CamImagesPickerActivity : AppCompatActivity() {
                 }
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     outputFileResults.savedUri?.let {
+                        sound.playShutter()
                         images.value = images.value?.apply { add(it) }?.toMutableList()
                     }
                 }
