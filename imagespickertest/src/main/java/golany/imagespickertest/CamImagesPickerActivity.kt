@@ -2,6 +2,7 @@ package golany.imagespickertest
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -54,6 +55,17 @@ class CamImagesPickerActivity : AppCompatActivity() {
         preview.setSurfaceProvider(previewView.surfaceProvider)
 
         return cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, imageCapture, preview)
+    }
+
+    /**
+     *  set color statusBar, navigationBar
+     */
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if(hasFocus){
+            window.statusBarColor = Color.BLACK
+            window.navigationBarColor = Color.BLACK
+        }
     }
 
     fun cameraCaptured(){
