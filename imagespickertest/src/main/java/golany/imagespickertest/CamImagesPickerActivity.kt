@@ -19,57 +19,23 @@ import kotlin.collections.ArrayList
 
 class CamImagesPickerActivity : AppCompatActivity() {
 
-    val binding by lazy { ActivityCamImagesPickerBinding.inflate(layoutInflater) }
+    private val binding by lazy { ActivityCamImagesPickerBinding.inflate(layoutInflater) }
 
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
 
     var images = MutableLiveData(mutableListOf<Uri>())
 
+    private val imageCapture = ImageCapture.Builder().build()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.apply { activity = this@CamImagesPickerActivity }.root)
 
-        cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-
-        val imageCapture = ImageCapture.Builder()
-            .build()
-
-        cameraProviderFuture.addListener(Runnable {
-            val cameraProvider = cameraProviderFuture.get()
-            bindPreview(binding.camView, cameraProvider, imageCapture)
-        }, ContextCompat.getMainExecutor(this))
-
-        //region 캡쳐버튼 클릭
-        binding.btnCameraCapture.setOnClickListener {
-
-            val file = File(this.cacheDir, "${UUID.randomUUID()}")
-            val outputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()
-
-            imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this),
-                object : ImageCapture.OnImageSavedCallback {
-                    override fun onError(error: ImageCaptureException)
-                    {
-
-                    }
-                    override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                        outputFileResults.savedUri?.let {
-                            images.value = images.value?.apply { add(it) }?.toMutableList()
-                        }
-                    }
-                }
-            )
-
-        }
-        //endregion
-
-        binding.btnConfirm.setOnClickListener {
-            val data = Intent().apply {
-                putParcelableArrayListExtra(
-                    Const.EXTRA_SELECTED_URIS, images.value?.let { it1 -> ArrayList(it1) }
-                )
-            }
-            setResult(Activity.RESULT_OK, data)
-            finish()
+        cameraProviderFuture = ProcessCameraProvider.getInstance(this).apply {
+            addListener(Runnable {
+                val cameraProvider = cameraProviderFuture.get()
+                bindPreview(binding.camView, cameraProvider, imageCapture)
+            }, ContextCompat.getMainExecutor(this@CamImagesPickerActivity))
         }
 
     }
@@ -86,5 +52,35 @@ class CamImagesPickerActivity : AppCompatActivity() {
 
         return cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, imageCapture, preview)
     }
+
+    fun cameraCaptured(){
+        val file = File(this.cacheDir, "${UUID.randomUUID()}")
+        val outputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()
+
+        imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onError(error: ImageCaptureException)
+                {
+
+                }
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    outputFileResults.savedUri?.let {
+                        images.value = images.value?.apply { add(it) }?.toMutableList()
+                    }
+                }
+            }
+        )
+    }
+
+    fun confirmClick(){
+        val data = Intent().apply {
+            putParcelableArrayListExtra(
+                Const.EXTRA_SELECTED_URIS, images.value?.let { it1 -> ArrayList(it1) }
+            )
+        }
+        setResult(Activity.RESULT_OK, data)
+        finish()
+    }
+
 
 }

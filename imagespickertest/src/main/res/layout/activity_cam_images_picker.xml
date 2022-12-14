@@ -41,12 +41,13 @@
             android:layout_height="wrap_content"
             android:paddingVertical="5dp">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_camera_capture"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/round"
+                android:onClick="@{()->activity.cameraCaptured()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -58,6 +59,7 @@
                 android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
                 android:text="확인"
+                android:onClick="@{()->activity.confirmClick()}"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_camera_capture"
                 app:layout_constraintEnd_toEndOf="parent"
