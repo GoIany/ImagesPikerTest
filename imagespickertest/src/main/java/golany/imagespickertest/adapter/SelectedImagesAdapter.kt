@@ -2,7 +2,6 @@ package golany.imagespickertest.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +17,7 @@ class SelectedImagesRecyclerAdapter() : RecyclerView.Adapter<SelectedImagesRecyc
 
     var images = MutableLiveData(mutableListOf<Uri>())
 
-    var imagesSelected = false
+    var beforeItemSize = images.value?.size ?: 0
 
     inner class ViewHolder(var binding: ItemSelectedImageBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -30,6 +29,7 @@ class SelectedImagesRecyclerAdapter() : RecyclerView.Adapter<SelectedImagesRecyc
 
             binding.btnCancel.setOnClickListener {
                 images.value = images.value?.apply { remove(uri) }
+                this@SelectedImagesRecyclerAdapter.notifyItemRemoved(adapterPosition)
             }
         }
 
@@ -57,22 +57,21 @@ fun RecyclerView?.setImages(
 ) {
     val adapter = SelectedImagesRecyclerAdapter()
     this?.adapter = adapter
-
-    if (images != null) {
-        (this?.adapter as? SelectedImagesRecyclerAdapter)?.images = images
-    }
+    images?.let { adapter.images = it }
 
     this?.findViewTreeLifecycleOwner()?.let {
         images?.observe(it) {
-
             val rvHeight = resources.getDimensionPixelSize(R.dimen.selected_images_recyclerview_height)
-            val parent = this@setImages.parent as View
 
-            if (it.size > 0 && !adapter.imagesSelected) Animation.slideShow(parent, rvHeight) { adapter.notifyDataSetChanged() }
-            else if (it.size == 0) Animation.slideHide(parent, rvHeight)
-            else adapter.notifyItemChanged(adapter.itemCount)
+            val beforeSize = adapter.beforeItemSize
+            adapter.beforeItemSize = it.size
 
-            adapter.imagesSelected = it.size > 0
+            if (beforeSize == 0 && it.size == 1)
+                Animation.slideShow(this@setImages, rvHeight) { adapter.notifyDataSetChanged() }
+            else if (it.size == 0)
+                Animation.slideHide(this@setImages, rvHeight)
+            else if(it.size  - beforeSize > 0)
+                adapter.notifyItemChanged(adapter.itemCount)
         }
     }
 }
