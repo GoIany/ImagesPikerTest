@@ -15,6 +15,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import com.google.common.util.concurrent.ListenableFuture
 import golany.imagespickertest.databinding.ActivityCamImagesPickerBinding
+import golany.imagespickertest.extenstion.deleteFile
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -102,6 +103,7 @@ class CamImagesPickerActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        images.value?.forEach { it.deleteFile() }
         setResult(Activity.RESULT_CANCELED)
         super.onBackPressed()
     }

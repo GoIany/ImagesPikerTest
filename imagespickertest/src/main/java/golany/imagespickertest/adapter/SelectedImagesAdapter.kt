@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import golany.imagespickertest.Animation
 import golany.imagespickertest.R
 import golany.imagespickertest.databinding.ItemSelectedImageBinding
+import golany.imagespickertest.extenstion.deleteFile
 
 class SelectedImagesRecyclerAdapter() : RecyclerView.Adapter<SelectedImagesRecyclerAdapter.ViewHolder>() {
 
@@ -30,6 +31,7 @@ class SelectedImagesRecyclerAdapter() : RecyclerView.Adapter<SelectedImagesRecyc
             binding.btnCancel.setOnClickListener {
                 images.value = images.value?.apply { remove(uri) }
                 this@SelectedImagesRecyclerAdapter.notifyItemRemoved(adapterPosition)
+                uri?.deleteFile()
             }
         }
 
