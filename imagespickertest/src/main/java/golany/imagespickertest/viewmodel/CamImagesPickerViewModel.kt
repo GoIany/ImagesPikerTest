@@ -10,7 +10,7 @@ internal class CamImagesPickerViewModel: ViewModel() {
     var images = MutableLiveData(mutableListOf<Uri>())
 
     fun addImage(uri: Uri){
-        images.value = images.value?.apply { add(uri) }?.toMutableList()
+        images.value = images.value?.apply { add(0, uri) }?.toMutableList()
     }
 
     fun clearImages(){

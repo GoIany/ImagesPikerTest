@@ -74,7 +74,8 @@ fun RecyclerView?.setImages(
                 if(it.size == 0) Animation.slideHide(this@setImages, isVertical, rvLength)
                 else Animation.slideShow(this@setImages, isVertical, rvLength) { adapter.notifyDataSetChanged() }
             } else if(it.size  - beforeSize > 0){
-                adapter.notifyItemChanged(adapter.itemCount)
+                adapter.notifyItemInserted(0)
+                this.smoothScrollToPosition(0)
             }
         }
     }
