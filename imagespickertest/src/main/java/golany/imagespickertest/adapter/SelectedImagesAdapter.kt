@@ -1,5 +1,6 @@
 package golany.imagespickertest.adapter
 
+import android.content.res.Configuration
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -63,17 +64,18 @@ fun RecyclerView?.setImages(
 
     this?.findViewTreeLifecycleOwner()?.let {
         images?.observe(it) {
-            val rvHeight = resources.getDimensionPixelSize(R.dimen.selected_images_recyclerview_height)
-
             val beforeSize = adapter.beforeItemSize
             adapter.beforeItemSize = it.size
 
-            if (beforeSize == 0 && it.size == 1)
-                Animation.slideShow(this@setImages, rvHeight) { adapter.notifyDataSetChanged() }
-            else if (it.size == 0)
-                Animation.slideHide(this@setImages, rvHeight)
-            else if(it.size  - beforeSize > 0)
+            if (beforeSize == 0 && it.size == 1 || it.size == 0){
+                val isVertical = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+                val rvLength = resources.getDimensionPixelSize(R.dimen.selected_images_recyclerview_length)
+
+                if(it.size == 0) Animation.slideHide(this@setImages, isVertical, rvLength)
+                else Animation.slideShow(this@setImages, isVertical, rvLength) { adapter.notifyDataSetChanged() }
+            } else if(it.size  - beforeSize > 0){
                 adapter.notifyItemChanged(adapter.itemCount)
+            }
         }
     }
 }

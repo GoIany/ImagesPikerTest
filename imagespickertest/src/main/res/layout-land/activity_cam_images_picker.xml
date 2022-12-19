@@ -15,58 +15,59 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:background="@color/black"
         tools:context=".ui.imagespicker.CamImagesPickActivity">
 
         <androidx.camera.view.PreviewView
             android:id="@+id/cam_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1">
 
         </androidx.camera.view.PreviewView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rc_images"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="5dp"
+            android:orientation="vertical"
             app:images="@{viewModel.images}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_selected_image"
-            tools:orientation="horizontal" />
+            tools:itemCount="1"
+            tools:orientation="vertical" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/down_controller"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="5dp">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="5dp">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_camera_capture"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginRight="24dp"
                 android:background="@drawable/round"
                 android:onClick="@{()->activity.cameraCaptured()}"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <Button
                 android:id="@+id/btn_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
                 android:background="@android:color/transparent"
                 android:text="확인"
                 android:onClick="@{()->activity.confirmClick()}"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@id/btn_camera_capture"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/btn_camera_capture" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="@id/btn_camera_capture"
+                app:layout_constraintEnd_toEndOf="@id/btn_camera_capture"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

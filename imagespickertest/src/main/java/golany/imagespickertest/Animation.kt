@@ -8,10 +8,11 @@ import androidx.core.animation.doOnEnd
 
 object Animation {
 
-    fun slide(view: View, currentDimen: Int, newDimen: Int, doOnEnd: () -> Unit = {}){
+    fun slide(view: View, isVertical: Boolean, currentDimen: Int, newDimen: Int, doOnEnd: () -> Unit = {}){
         val valueAnimator = ValueAnimator.ofInt(currentDimen, newDimen).apply {
             addUpdateListener {
-                view.layoutParams.height = it.animatedValue as Int
+                if(isVertical) view.layoutParams.height = it.animatedValue as Int
+                else view.layoutParams.width = it.animatedValue as Int
                 view.requestLayout()
             }
         }
@@ -25,8 +26,8 @@ object Animation {
         }.start()
     }
 
-    fun slideShow(view: View, showDimen: Int, doOnEnd: () -> Unit = {}){ slide(view, 0, showDimen, doOnEnd) }
+    fun slideShow(view: View, isVertical: Boolean, showDimen: Int, doOnEnd: () -> Unit = {}){ slide(view, isVertical, 0, showDimen, doOnEnd) }
 
-    fun slideHide(view: View, showDimen: Int){ slide(view, showDimen, 0) }
+    fun slideHide(view: View, isVertical: Boolean, showDimen: Int){ slide(view, isVertical, showDimen, 0) }
 
 }
