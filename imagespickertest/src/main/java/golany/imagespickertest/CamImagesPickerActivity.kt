@@ -3,7 +3,6 @@ package golany.imagespickertest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AlphaAnimation
@@ -12,21 +11,21 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import com.google.common.util.concurrent.ListenableFuture
 import golany.imagespickertest.databinding.ActivityCamImagesPickerBinding
-import golany.imagespickertest.extenstion.deleteFile
+import golany.imagespickertest.viewmodel.CamImagesPickerViewModel
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
+import androidx.activity.viewModels
 
-class CamImagesPickerActivity : AppCompatActivity() {
+internal class CamImagesPickerActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityCamImagesPickerBinding.inflate(layoutInflater) }
 
-    private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
+    private val viewModel: CamImagesPickerViewModel by viewModels()
 
-    var images = MutableLiveData(mutableListOf<Uri>())
+    private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
 
     private val imageCapture = ImageCapture.Builder().build()
 
@@ -34,7 +33,11 @@ class CamImagesPickerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.apply { activity = this@CamImagesPickerActivity }.root)
+        setContentView(
+            binding.apply {
+                activity = this@CamImagesPickerActivity
+                viewModel = this@CamImagesPickerActivity.viewModel
+            }.root)
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(this).apply {
             addListener(Runnable {
@@ -85,7 +88,7 @@ class CamImagesPickerActivity : AppCompatActivity() {
                         binding.camView.startAnimation(
                             AlphaAnimation(1f,0f).apply { duration = 50 }
                         )
-                        images.value = images.value?.apply { add(it) }?.toMutableList()
+                        viewModel.addImage(it)
                     }
                 }
             }
@@ -95,7 +98,7 @@ class CamImagesPickerActivity : AppCompatActivity() {
     fun confirmClick(){
         val data = Intent().apply {
             putParcelableArrayListExtra(
-                Const.EXTRA_SELECTED_URIS, images.value?.let { it1 -> ArrayList(it1) }
+                Const.EXTRA_SELECTED_URIS, viewModel.images.value?.let { it1 -> ArrayList(it1) }
             )
         }
         setResult(Activity.RESULT_OK, data)
@@ -103,7 +106,7 @@ class CamImagesPickerActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        images.value?.forEach { it.deleteFile() }
+        viewModel.clearImages()
         setResult(Activity.RESULT_CANCELED)
         super.onBackPressed()
     }

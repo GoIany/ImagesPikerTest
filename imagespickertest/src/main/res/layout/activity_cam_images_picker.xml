@@ -7,6 +7,9 @@
         <variable
             name="activity"
             type="golany.imagespickertest.CamImagesPickerActivity" />
+        <variable
+            name="viewModel"
+            type="golany.imagespickertest.viewmodel.CamImagesPickerViewModel" />
     </data>
 
     <LinearLayout
@@ -30,7 +33,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:orientation="horizontal"
-            app:images="@{activity.images}"
+            app:images="@{viewModel.images}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_selected_image"
             tools:orientation="horizontal" />
