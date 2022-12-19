@@ -18,5 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
         android:src="@drawable/ic_cancel"
-        android:background="@android:color/transparent" />
+        android:background="@drawable/round"
+        android:backgroundTint="#d0909090"/>
 </FrameLayout>
