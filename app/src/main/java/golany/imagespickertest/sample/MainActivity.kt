@@ -11,9 +11,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         findViewById<Button>(R.id.btn_start_images).setOnClickListener {
-            CamImagePicker.with(this).startGetImages {
-                Log.d("xorm","imgUris: ${it}")
-            }
+            CamImagePicker.with(this)
+                .min(1)
+                .max(5)
+                .startGetImages {
+                    Log.d("xorm", "imgUris: ${it}")
+                }
         }
     }
 

@@ -55,18 +55,37 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toTopOf="@id/tv_min_max"
+                app:layout_constraintEnd_toStartOf="@id/tv_min_max"
+                tools:text="1" />
+
+            <TextView
+                android:id="@+id/tv_min_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/ 0 ~ 1"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toTopOf="@id/btn_camera_capture"
+                app:layout_constraintBottom_toTopOf="@id/btn_confirm"
+                app:layout_constraintEnd_toEndOf="@+id/btn_confirm" />
+
             <Button
                 android:id="@+id/btn_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
-                android:text="확인"
                 android:onClick="@{()->activity.confirmClick()}"
+                android:text="확인"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@id/btn_camera_capture"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/btn_camera_capture" />
+                app:layout_constraintTop_toBottomOf="@id/tv_min_max"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

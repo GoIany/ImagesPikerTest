@@ -3,6 +3,7 @@ package golany.imagespickertest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AlphaAnimation
@@ -18,12 +19,20 @@ import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 import androidx.activity.viewModels
+import golany.imagespickertest.builder.CamImagePicker
 
 internal class CamImagesPickerActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityCamImagesPickerBinding.inflate(layoutInflater) }
 
     private val viewModel: CamImagesPickerViewModel by viewModels()
+
+    private val builder by lazy {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            intent.getParcelableExtra(Const.EXTRA_BUILDER, CamImagePicker.Builder::class.java)
+        else
+            intent.getParcelableExtra<CamImagePicker.Builder>(Const.EXTRA_BUILDER)
+    }
 
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
 
@@ -45,7 +54,6 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
                 bindPreview(binding.camView, cameraProvider, imageCapture)
             }, ContextCompat.getMainExecutor(this@CamImagesPickerActivity))
         }
-
     }
 
     fun bindPreview(previewView: PreviewView, cameraProvider : ProcessCameraProvider, imageCapture: ImageCapture): Camera {
@@ -96,13 +104,19 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
     }
 
     fun confirmClick(){
-        val data = Intent().apply {
-            putParcelableArrayListExtra(
-                Const.EXTRA_SELECTED_URIS, viewModel.images.value?.let { it1 -> ArrayList(it1) }
-            )
+        if(!viewModel.checkMinCount(builder?.minCount)){
+
+        }else if(!viewModel.checkMaxCount(builder?.maxCount)){
+
+        }else {
+            val data = Intent().apply {
+                putParcelableArrayListExtra(
+                    Const.EXTRA_SELECTED_URIS, viewModel.images.value?.let { it1 -> ArrayList(it1) }
+                )
+            }
+            setResult(Activity.RESULT_OK, data)
+            finish()
         }
-        setResult(Activity.RESULT_OK, data)
-        finish()
     }
 
     override fun onBackPressed() {

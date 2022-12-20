@@ -18,4 +18,10 @@ internal class CamImagesPickerViewModel: ViewModel() {
         images.value = mutableListOf()
     }
 
+    fun checkMinCount(min: Int?): Boolean =
+        (images.value?.size ?: 0) >= (min ?: 0)
+
+    fun checkMaxCount(max: Int?): Boolean =
+        (images.value?.size ?: 0) <= (max ?: 0)
+
 }

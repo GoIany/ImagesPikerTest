@@ -4,30 +4,54 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Parcelable
 import com.gun0912.tedonactivityresult.TedOnActivityResult
 import golany.imagespickertest.CamImagesPickerActivity
 import golany.imagespickertest.Const
+import kotlinx.parcelize.IgnoredOnParcel
+import kotlinx.parcelize.Parcelize
 
 class CamImagePicker {
 
     companion object {
         @JvmStatic
-        fun with(context: Context) = Builder(context)
+        fun with(context: Context) = Builder(context) as Builder
     }
 
 
-    class Builder(private val context: Context) : CamImagePickerBaseBuilder() {
+    @Parcelize
+    class Builder(
+        @IgnoredOnParcel
+        private val context: Context,
+        internal var showNowCount: Boolean = true,
+        internal var showMinCount: Boolean = true,
+        internal var showMaxCount: Boolean = true,
+        internal var minCount: Int = 0,
+        internal var maxCount: Int = Int.MAX_VALUE
+    ) : Parcelable {
 
-        fun startGetImages(action: (List<Uri>) -> Unit){
+        fun min(minCount: Int): Builder = apply {
+            this.minCount = minCount
+        }
+
+        fun max(maxCount: Int): Builder = apply {
+            this.maxCount = maxCount
+        }
+
+        fun startGetImages(action: (List<Uri>) -> Unit) {
 
             TedOnActivityResult.with(context)
                 .setIntent(
-                    Intent(context, CamImagesPickerActivity::class.java).apply{ putExtra(Const.EXTRA_BUILDER, this@Builder) }
+                    Intent(
+                        context,
+                        CamImagesPickerActivity::class.java
+                    ).apply { putExtra(Const.EXTRA_BUILDER, this@Builder) }
                 )
                 .setListener { resultCode, data ->
-                    if(resultCode == Activity.RESULT_OK){
-                        data.getParcelableArrayListExtra<Uri>(Const.EXTRA_SELECTED_URIS)?.let { action(it) }
-                    }else if(resultCode == Activity.RESULT_CANCELED){
+                    if (resultCode == Activity.RESULT_OK) {
+                        data.getParcelableArrayListExtra<Uri>(Const.EXTRA_SELECTED_URIS)
+                            ?.let { action(it) }
+                    } else if (resultCode == Activity.RESULT_CANCELED) {
 
                     }
                 }
