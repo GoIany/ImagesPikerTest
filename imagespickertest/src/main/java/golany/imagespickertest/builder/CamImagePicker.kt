@@ -38,6 +38,8 @@ class CamImagePicker {
             this.maxCount = maxCount
         }
 
+        fun getMinMaxText(): String = "$minCount ~ $maxCount"
+
         fun startGetImages(action: (List<Uri>) -> Unit) {
 
             TedOnActivityResult.with(context)

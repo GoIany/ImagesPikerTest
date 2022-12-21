@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="5dp">
-
+<!--
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_camera_capture"
                 android:layout_width="70dp"
@@ -54,25 +54,40 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+-->
+            <include
+                layout="@layout/button_capture"
+                android:id="@+id/btn_camera_capture"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginBottom="24dp"
+                app:activity="@{activity}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
                 android:id="@+id/tv_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                app:layout_constraintTop_toTopOf="@id/tv_min_max"
                 app:layout_constraintEnd_toStartOf="@id/tv_min_max"
-                tools:text="1" />
+                app:layout_constraintStart_toStartOf="@+id/btn_confirm"
+                app:layout_constraintTop_toTopOf="@id/tv_min_max"
+                app:liveData="@{viewModel.imagesSize}"
+                tools:text="1 " />
 
             <TextView
                 android:id="@+id/tv_min_max"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="/ 0 ~ 1"
+                android:text=" / 0 ~ 10"
                 android:textColor="@color/white"
-                app:layout_constraintTop_toTopOf="@id/btn_camera_capture"
                 app:layout_constraintBottom_toTopOf="@id/btn_confirm"
-                app:layout_constraintEnd_toEndOf="@+id/btn_confirm" />
+                app:layout_constraintStart_toStartOf="@id/tv_count"
+                app:layout_constraintEnd_toEndOf="@+id/btn_confirm"
+                app:layout_constraintTop_toTopOf="@id/btn_camera_capture"
+                tools:text=" / 0 ~ 10" />
 
             <Button
                 android:id="@+id/btn_confirm"

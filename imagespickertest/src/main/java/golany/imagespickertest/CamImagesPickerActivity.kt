@@ -25,9 +25,9 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityCamImagesPickerBinding.inflate(layoutInflater) }
 
-    private val viewModel: CamImagesPickerViewModel by viewModels()
+    val viewModel: CamImagesPickerViewModel by viewModels()
 
-    private val builder by lazy {
+    val builder by lazy {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             intent.getParcelableExtra(Const.EXTRA_BUILDER, CamImagePicker.Builder::class.java)
         else

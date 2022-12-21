@@ -2,12 +2,15 @@ package golany.imagespickertest.viewmodel
 
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import golany.imagespickertest.extenstion.deleteFile
 
 internal class CamImagesPickerViewModel: ViewModel() {
 
     var images = MutableLiveData(mutableListOf<Uri>())
+
+    val imagesSize = Transformations.map(images){ it.size }
 
     fun addImage(uri: Uri){
         images.value = images.value?.apply { add(0, uri) }?.toMutableList()

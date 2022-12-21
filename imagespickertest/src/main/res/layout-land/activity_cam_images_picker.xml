@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingHorizontal="5dp">
-
+<!--
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_camera_capture"
                 android:layout_width="70dp"
@@ -55,6 +55,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+-->
+            <include
+                layout="@layout/button_capture"
+                android:id="@+id/btn_camera_capture"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginBottom="24dp"
+                app:activity="@{activity}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
             <Button
                 android:id="@+id/btn_confirm"
