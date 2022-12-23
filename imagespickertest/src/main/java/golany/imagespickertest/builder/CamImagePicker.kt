@@ -22,7 +22,7 @@ class CamImagePicker {
     @Parcelize
     class Builder(
         @IgnoredOnParcel
-        private val context: Context?,
+        private val context: Context? = null,
         var showNowCount: Boolean = true,
         var showMinMaxCount: Boolean = true,
         internal var minCount: Int = 0,

@@ -20,6 +20,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 import androidx.activity.viewModels
 import golany.imagespickertest.builder.CamImagePicker
+import golany.imagespickertest.common.Toast
+import golany.imagespickertest.common.toast
 
 internal class CamImagesPickerActivity : AppCompatActivity() {
 
@@ -29,9 +31,9 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
 
     val builder by lazy {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-            intent.getParcelableExtra(Const.EXTRA_BUILDER, CamImagePicker.Builder::class.java)
+            intent.getParcelableExtra(Const.EXTRA_BUILDER, CamImagePicker.Builder::class.java) ?: CamImagePicker.Builder()
         else
-            intent.getParcelableExtra<CamImagePicker.Builder>(Const.EXTRA_BUILDER)
+            intent.getParcelableExtra<CamImagePicker.Builder>(Const.EXTRA_BUILDER) ?: CamImagePicker.Builder()
     }
 
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
@@ -46,7 +48,10 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
             binding.apply {
                 activity = this@CamImagesPickerActivity
                 viewModel = this@CamImagesPickerActivity.viewModel
-            }.root)
+            }.root
+        )
+
+        Toast.setApplication(this.application)
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(this).apply {
             addListener(Runnable {
@@ -81,33 +86,35 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
     }
 
     fun cameraCaptured(){
-        val file = File(this.cacheDir, "${UUID.randomUUID()}")
-        val outputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()
+        if(viewModel.checkMaxCount(builder.maxCount)) {
+            val file = File(this.cacheDir, "${UUID.randomUUID()}")
+            val outputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()
 
-        imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this),
-            object : ImageCapture.OnImageSavedCallback {
-                override fun onError(error: ImageCaptureException)
-                {
+            imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this),
+                object : ImageCapture.OnImageSavedCallback {
+                    override fun onError(error: ImageCaptureException) {
 
-                }
-                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                    outputFileResults.savedUri?.let {
-                        sound.playShutter()
-                        binding.camView.startAnimation(
-                            AlphaAnimation(1f,0f).apply { duration = 50 }
-                        )
-                        viewModel.addImage(it)
+                    }
+
+                    override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                        outputFileResults.savedUri?.let {
+                            sound.playShutter()
+                            binding.camView.startAnimation(
+                                AlphaAnimation(1f, 0f).apply { duration = 50 }
+                            )
+                            viewModel.addImage(it)
+                        }
                     }
                 }
-            }
-        )
+            )
+        }else{
+            toast(getString(R.string.toast_over_max, builder.maxCount))
+        }
     }
 
     fun confirmClick(){
-        if(!viewModel.checkMinCount(builder?.minCount)){
-
-        }else if(!viewModel.checkMaxCount(builder?.maxCount)){
-
+        if(!viewModel.checkMinCount(builder.minCount)){
+            toast(getString(R.string.toast_under_min, builder.minCount))
         }else {
             val data = Intent().apply {
                 putParcelableArrayListExtra(

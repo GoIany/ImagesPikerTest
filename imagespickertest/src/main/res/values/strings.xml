@@ -1,1 +1,4 @@
-<resources></resources>
+<resources>
+    <string name="toast_under_min">최소 이미지수량(%d) 미달</string>
+    <string name="toast_over_max">최대 이미지수량(%d) 초과</string>
+</resources>
