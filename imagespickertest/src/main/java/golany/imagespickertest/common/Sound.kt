@@ -1,4 +1,4 @@
-package golany.imagespickertest
+package golany.imagespickertest.common
 
 import android.media.AudioAttributes
 import android.media.SoundPool

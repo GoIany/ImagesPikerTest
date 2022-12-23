@@ -1,4 +1,4 @@
-package golany.imagespickertest
+package golany.imagespickertest.common
 
 internal object Const {
     const val EXTRA_BUILDER = "EXTRA_BUILDER"

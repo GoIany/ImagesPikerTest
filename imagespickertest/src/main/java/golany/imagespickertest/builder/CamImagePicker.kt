@@ -6,8 +6,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Parcelable
 import com.gun0912.tedonactivityresult.TedOnActivityResult
-import golany.imagespickertest.CamImagesPickerActivity
-import golany.imagespickertest.Const
+import golany.imagespickertest.ui.CamImagesPickerActivity
+import golany.imagespickertest.common.Const
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 

@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".CamImagesPickerActivity"
+            android:name=".ui.CamImagesPickerActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <meta-data

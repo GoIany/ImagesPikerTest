@@ -1,4 +1,4 @@
-package golany.imagespickertest
+package golany.imagespickertest.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -20,7 +20,10 @@ import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 import androidx.activity.viewModels
+import golany.imagespickertest.R
 import golany.imagespickertest.builder.CamImagePicker
+import golany.imagespickertest.common.Const
+import golany.imagespickertest.common.Sound
 import golany.imagespickertest.common.Toast
 import golany.imagespickertest.common.toast
 

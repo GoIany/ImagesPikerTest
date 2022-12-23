@@ -6,7 +6,7 @@
     <data>
         <variable
             name="activity"
-            type="golany.imagespickertest.CamImagesPickerActivity" />
+            type="golany.imagespickertest.ui.CamImagesPickerActivity" />
         <variable
             name="viewModel"
             type="golany.imagespickertest.viewmodel.CamImagesPickerViewModel" />

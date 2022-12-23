@@ -1,4 +1,4 @@
-package golany.imagespickertest
+package golany.imagespickertest.common
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator

@@ -10,7 +10,7 @@ import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import golany.imagespickertest.Animation
+import golany.imagespickertest.common.Animation
 import golany.imagespickertest.R
 import golany.imagespickertest.databinding.ItemSelectedImageBinding
 import golany.imagespickertest.extenstion.deleteFile
