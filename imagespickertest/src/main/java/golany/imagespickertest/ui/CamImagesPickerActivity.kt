@@ -37,6 +37,7 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             intent.getParcelableExtra(Const.EXTRA_BUILDER, CamImagePicker.Builder::class.java) ?: CamImagePicker.Builder()
         else
+            @Suppress("DEPRECATION")
             intent.getParcelableExtra<CamImagePicker.Builder>(Const.EXTRA_BUILDER) ?: CamImagePicker.Builder()
     }
 

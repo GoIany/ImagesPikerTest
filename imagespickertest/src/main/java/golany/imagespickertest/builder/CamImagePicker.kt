@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Parcelable
 import com.gun0912.tedonactivityresult.TedOnActivityResult
 import golany.imagespickertest.ui.CamImagesPickerActivity
@@ -63,7 +64,12 @@ class CamImagePicker {
                 )
                 .setListener { resultCode, data ->
                     if (resultCode == Activity.RESULT_OK) {
-                        data.getParcelableArrayListExtra<Uri>(Const.EXTRA_SELECTED_URIS)
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            data.getParcelableArrayListExtra(Const.EXTRA_SELECTED_URIS, Uri::class.java)
+                        }else {
+                            @Suppress("DEPRECATION")
+                            data.getParcelableArrayListExtra<Uri>(Const.EXTRA_SELECTED_URIS)
+                        }
                             ?.let { action(it) }
                     } else if (resultCode == Activity.RESULT_CANCELED) {
 
