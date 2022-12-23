@@ -16,8 +16,10 @@ internal class CamImagesPickerViewModel(builder: CamImagePicker.Builder): ViewMo
     }
 
     fun clearImages(){
-        images.value?.forEach { it.deleteFile() }
-        images.value = mutableListOf()
+        if(images.value?.isNotEmpty() == true) {
+            images.value?.forEach { it.deleteFile() }
+            images.value = mutableListOf()
+        }
     }
 
     fun checkMinCount(min: Int?): Boolean =
@@ -26,6 +28,7 @@ internal class CamImagesPickerViewModel(builder: CamImagePicker.Builder): ViewMo
     fun checkMaxCount(max: Int?): Boolean =
         (images.value?.size ?: 0) < (max ?: 0)
 
+    @Suppress("UNCHECKED_CAST")
     class Factory(private val builder: CamImagePicker.Builder): ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return CamImagesPickerViewModel(builder) as T

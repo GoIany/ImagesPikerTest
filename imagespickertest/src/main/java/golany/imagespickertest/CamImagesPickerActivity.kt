@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AlphaAnimation
+import androidx.activity.addCallback
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -58,6 +59,12 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
                 val cameraProvider = cameraProviderFuture.get()
                 bindPreview(binding.camView, cameraProvider, imageCapture)
             }, ContextCompat.getMainExecutor(this@CamImagesPickerActivity))
+        }
+
+        this.onBackPressedDispatcher.addCallback {
+            viewModel.clearImages()
+            setResult(Activity.RESULT_CANCELED)
+            this@CamImagesPickerActivity.finish()
         }
     }
 
@@ -124,12 +131,6 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK, data)
             finish()
         }
-    }
-
-    override fun onBackPressed() {
-        viewModel.clearImages()
-        setResult(Activity.RESULT_CANCELED)
-        super.onBackPressed()
     }
 
 }
