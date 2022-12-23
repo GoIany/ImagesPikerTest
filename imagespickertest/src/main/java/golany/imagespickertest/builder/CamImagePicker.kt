@@ -15,7 +15,7 @@ class CamImagePicker {
 
     companion object {
         @JvmStatic
-        fun with(context: Context) = Builder(context) as Builder
+        fun with(context: Context) = Builder(context)
     }
 
 
@@ -26,7 +26,8 @@ class CamImagePicker {
         var showNowCount: Boolean = true,
         var showMinMaxCount: Boolean = true,
         internal var minCount: Int = 0,
-        internal var maxCount: Int = Int.MAX_VALUE
+        internal var maxCount: Int = Int.MAX_VALUE,
+        internal var selectedImages: List<Uri> = listOf()
     ) : Parcelable {
 
         fun showNowCount(show: Boolean): Builder = apply {
@@ -46,6 +47,10 @@ class CamImagePicker {
         }
 
         fun getMinMaxText(): String = "$minCount ~ $maxCount"
+
+        fun selectedImages(images: List<Uri>): Builder = apply{
+            this.selectedImages = images
+        }
 
         fun startGetImages(action: (List<Uri>) -> Unit) {
 

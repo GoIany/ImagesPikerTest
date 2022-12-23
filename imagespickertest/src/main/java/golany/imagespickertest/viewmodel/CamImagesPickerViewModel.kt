@@ -1,14 +1,13 @@
 package golany.imagespickertest.viewmodel
 
 import android.net.Uri
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import golany.imagespickertest.builder.CamImagePicker
 import golany.imagespickertest.extenstion.deleteFile
 
-internal class CamImagesPickerViewModel: ViewModel() {
+internal class CamImagesPickerViewModel(builder: CamImagePicker.Builder): ViewModel() {
 
-    var images = MutableLiveData(mutableListOf<Uri>())
+    var images = MutableLiveData(builder.selectedImages.toMutableList())
 
     val imagesSize = Transformations.map(images){ it.size }
 
@@ -26,5 +25,11 @@ internal class CamImagesPickerViewModel: ViewModel() {
 
     fun checkMaxCount(max: Int?): Boolean =
         (images.value?.size ?: 0) < (max ?: 0)
+
+    class Factory(private val builder: CamImagePicker.Builder): ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return CamImagesPickerViewModel(builder) as T
+        }
+    }
 
 }
