@@ -40,9 +40,12 @@
             android:id="@+id/tv_min_max"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
             android:textColor="@color/black"
             android:text="@{activity.builder.getMinMaxText()}"
             android:visibility="@{activity.builder.showMinMaxCount ? View.VISIBLE : View.GONE}"
+            android:ellipsize="none"
+            android:singleLine="true"
             tools:text="0 ~ 1"/>
 
     </LinearLayout>
