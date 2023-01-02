@@ -58,10 +58,13 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
 
         Toast.setApplication(this.application)
 
+        isLensFacingBack = builder.isLensFacingBack
+
         cameraProviderFuture = ProcessCameraProvider.getInstance(this).apply {
             addListener(Runnable {
                 val cameraProvider = cameraProviderFuture.get()
-                bindPreview(binding.camView, cameraProvider, imageCapture)
+                val lensFacing = if(builder.isLensFacingBack) CameraSelector.LENS_FACING_BACK else CameraSelector.LENS_FACING_FRONT
+                bindPreview(cameraProvider = cameraProvider, lensFacing = lensFacing)
             }, ContextCompat.getMainExecutor(this@CamImagesPickerActivity))
         }
 
@@ -72,16 +75,27 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
         }
     }
 
-    fun bindPreview(previewView: PreviewView, cameraProvider : ProcessCameraProvider, imageCapture: ImageCapture): Camera {
+    private var isLensFacingBack = true
+    private fun bindPreview(
+        cameraProvider : ProcessCameraProvider,
+        previewView: PreviewView = binding.camView,
+        imageCapture: ImageCapture = this.imageCapture,
+        lensFacing: Int? = null
+    ): Camera {
         val preview : Preview = Preview.Builder()
             .build()
 
+        val mLensFacing = lensFacing ?: if(this.isLensFacingBack) CameraSelector.LENS_FACING_FRONT else CameraSelector.LENS_FACING_BACK
+
         val cameraSelector : CameraSelector = CameraSelector.Builder()
-            .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+            .requireLensFacing(mLensFacing)
             .build()
+
+        isLensFacingBack = mLensFacing == CameraSelector.LENS_FACING_BACK
 
         preview.setSurfaceProvider(previewView.surfaceProvider)
 
+        cameraProvider.unbindAll()
         return cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, imageCapture, preview)
     }
 
@@ -121,6 +135,10 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
         }else{
             toast(getString(R.string.toast_over_max, builder.maxCount))
         }
+    }
+
+    fun cameraSwitch(){
+        bindPreview(cameraProviderFuture.get())
     }
 
     fun confirmClick(){

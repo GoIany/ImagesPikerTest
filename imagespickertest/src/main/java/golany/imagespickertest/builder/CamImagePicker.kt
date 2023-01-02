@@ -28,24 +28,22 @@ class CamImagePicker {
         var showMinMaxCount: Boolean = true,
         internal var minCount: Int = 0,
         internal var maxCount: Int = Int.MAX_VALUE,
+        var isLensFacingBack: Boolean = true,
+        var lensFacingSwitcher: Boolean = true,
         internal var selectedImages: List<Uri> = listOf()
     ) : Parcelable {
 
-        fun showNowCount(show: Boolean): Builder = apply {
-            this.showNowCount = show
-        }
+        fun showNowCount(value: Boolean): Builder = apply { showNowCount = value }
 
-        fun showMinMaxCount(show: Boolean): Builder = apply{
-            this.showMinMaxCount = show
-        }
+        fun showMinMaxCount(value: Boolean): Builder = apply{ showMinMaxCount = value }
 
-        fun min(minCount: Int): Builder = apply {
-            this.minCount = minCount
-        }
+        fun min(value: Int): Builder = apply { minCount = value }
 
-        fun max(maxCount: Int): Builder = apply {
-            this.maxCount = maxCount
-        }
+        fun max(value: Int): Builder = apply { maxCount = value }
+
+        fun isLensFacingBack(value: Boolean): Builder = apply { isLensFacingBack = value }
+
+        fun lensFacingSwitcher(value: Boolean): Builder = apply { lensFacingSwitcher = value }
 
         fun getMinMaxText(): String = "$minCount ~ $maxCount"
 

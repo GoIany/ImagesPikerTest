@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="activity"
             type="golany.imagespickertest.ui.CamImagesPickerActivity" />
@@ -42,7 +43,20 @@
             android:id="@+id/down_controller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="5dp">
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="16dp">
+
+
+            <ImageView
+                android:id="@+id/btn_camera_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->activity.cameraSwitch()}"
+                android:visibility="@{activity.builder.lensFacingSwitcher ? View.VISIBLE : View.GONE }"
+                app:srcCompat="@drawable/ic_cameraswitch"
+                app:layout_constraintTop_toTopOf="@id/btn_camera_capture"
+                app:layout_constraintBottom_toBottomOf="@id/btn_camera_capture"
+                app:layout_constraintLeft_toLeftOf="parent"/>
 
             <include
                 layout="@layout/button_capture"
@@ -59,7 +73,6 @@
                 android:id="@+id/btn_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
                 android:background="@android:color/transparent"
                 android:onClick="@{()->activity.confirmClick()}"
                 android:text="확인"

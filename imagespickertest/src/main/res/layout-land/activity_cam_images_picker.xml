@@ -43,7 +43,19 @@
             android:id="@+id/down_controller"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingHorizontal="5dp">
+            android:paddingHorizontal="5dp"
+            android:paddingVertical="16dp">
+
+            <ImageView
+                android:id="@+id/btn_camera_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->activity.cameraSwitch()}"
+                android:visibility="@{activity.builder.lensFacingSwitcher ? View.VISIBLE : View.GONE }"
+                app:srcCompat="@drawable/ic_cameraswitch"
+                app:layout_constraintStart_toStartOf="@id/btn_camera_capture"
+                app:layout_constraintEnd_toEndOf="@id/btn_camera_capture"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <include
                 layout="@layout/button_capture"
@@ -60,7 +72,6 @@
                 android:id="@+id/btn_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:background="@android:color/transparent"
                 android:text="확인"
                 android:onClick="@{()->activity.confirmClick()}"
