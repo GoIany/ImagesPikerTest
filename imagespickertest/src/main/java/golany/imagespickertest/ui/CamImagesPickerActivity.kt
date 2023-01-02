@@ -2,6 +2,7 @@ package golany.imagespickertest.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -47,6 +48,16 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
 
     private val sound = Sound()
 
+    private fun initOrientation(){
+        this.requestedOrientation =
+            if(builder.orientationFix) {
+                if(builder.orientationVertical) ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            }else {
+                ActivityInfo.SCREEN_ORIENTATION_SENSOR
+            }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(
@@ -65,6 +76,7 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
                 val cameraProvider = cameraProviderFuture.get()
                 val lensFacing = if(builder.isLensFacingBack) CameraSelector.LENS_FACING_BACK else CameraSelector.LENS_FACING_FRONT
                 bindPreview(cameraProvider = cameraProvider, lensFacing = lensFacing)
+                initOrientation()
             }, ContextCompat.getMainExecutor(this@CamImagesPickerActivity))
         }
 

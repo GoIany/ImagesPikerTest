@@ -30,6 +30,8 @@ class CamImagePicker {
         internal var maxCount: Int = Int.MAX_VALUE,
         var isLensFacingBack: Boolean = true,
         var lensFacingSwitcher: Boolean = true,
+        internal var orientationVertical: Boolean = true,
+        internal var orientationFix: Boolean = false,
         internal var selectedImages: List<Uri> = listOf()
     ) : Parcelable {
 
@@ -41,11 +43,16 @@ class CamImagePicker {
 
         fun max(value: Int): Builder = apply { maxCount = value }
 
+        fun getMinMaxText(): String = "$minCount ~ $maxCount"
+
         fun isLensFacingBack(value: Boolean): Builder = apply { isLensFacingBack = value }
 
         fun lensFacingSwitcher(value: Boolean): Builder = apply { lensFacingSwitcher = value }
 
-        fun getMinMaxText(): String = "$minCount ~ $maxCount"
+        fun orientationFix(isFix: Boolean, isVertical: Boolean): Builder = apply {
+            orientationFix = isFix
+            orientationVertical = isVertical
+        }
 
         fun selectedImages(images: List<Uri>): Builder = apply{
             this.selectedImages = images
