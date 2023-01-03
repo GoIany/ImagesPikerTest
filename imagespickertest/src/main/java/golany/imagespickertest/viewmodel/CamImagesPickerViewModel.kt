@@ -11,6 +11,8 @@ internal class CamImagesPickerViewModel(builder: CamImagePicker.Builder): ViewMo
 
     val imagesSize = Transformations.map(images){ it.size }
 
+    var isTorchOn = MutableLiveData(false)
+
     fun addImage(uri: Uri){
         images.value = images.value?.apply { add(0, uri) }?.toMutableList()
     }

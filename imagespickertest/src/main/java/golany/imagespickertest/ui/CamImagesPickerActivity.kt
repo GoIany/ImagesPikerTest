@@ -44,6 +44,8 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
 
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
 
+    private var camera: Camera? = null
+
     private val imageCapture = ImageCapture.Builder().build()
 
     private val sound = Sound()
@@ -75,9 +77,20 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
             addListener(Runnable {
                 val cameraProvider = cameraProviderFuture.get()
                 val lensFacing = if(builder.isLensFacingBack) CameraSelector.LENS_FACING_BACK else CameraSelector.LENS_FACING_FRONT
-                bindPreview(cameraProvider = cameraProvider, lensFacing = lensFacing)
+                camera = bindPreview(cameraProvider = cameraProvider, lensFacing = lensFacing).apply {
+                    cameraControl.enableTorch(viewModel.isTorchOn.value ?: false)
+                }
+
+
                 initOrientation()
             }, ContextCompat.getMainExecutor(this@CamImagesPickerActivity))
+        }
+
+        viewModel.isTorchOn.observe(this){
+            binding.btnFlash.setImageResource(
+                if(it) R.drawable.ic_flashlight_on else R.drawable.ic_flashlight_off
+            )
+            camera?.cameraControl?.enableTorch(it)
         }
 
         this.onBackPressedDispatcher.addCallback {
@@ -151,6 +164,10 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
 
     fun cameraSwitch(){
         bindPreview(cameraProviderFuture.get())
+    }
+
+    fun torchSwitch(){
+        viewModel.isTorchOn.value = !(viewModel.isTorchOn.value ?: false)
     }
 
     fun confirmClick(){

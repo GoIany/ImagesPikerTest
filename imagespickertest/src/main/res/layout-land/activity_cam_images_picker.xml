@@ -45,7 +45,7 @@
             android:id="@+id/btn_flash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{()->activity.cameraSwitch()}"
+            android:onClick="@{()->activity.torchSwitch()}"
             android:layout_marginTop="10dp"
             app:layout_constraintVertical_chainStyle="spread_inside"
             app:layout_constraintLeft_toLeftOf="@id/bg_top_control"
