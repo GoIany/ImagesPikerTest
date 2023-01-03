@@ -20,11 +20,45 @@
         android:orientation="horizontal"
         tools:context=".ui.imagespicker.CamImagesPickActivity">
 
+        <View
+            android:id="@+id/bg_top_control"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/cam_view"/>
+
+        <ImageView
+            android:id="@+id/btn_camera_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->activity.cameraSwitch()}"
+            android:visibility="@{activity.builder.lensFacingSwitcher ? View.VISIBLE : View.GONE }"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintLeft_toLeftOf="@id/bg_top_control"
+            app:layout_constraintRight_toRightOf="@id/bg_top_control"
+            app:layout_constraintBottom_toBottomOf="@id/bg_top_control"
+            app:layout_constraintTop_toBottomOf="@id/btn_flash"
+            app:srcCompat="@drawable/ic_cameraswitch" />
+
+        <ImageView
+            android:id="@+id/btn_flash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{()->activity.cameraSwitch()}"
+            android:layout_marginTop="10dp"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            app:layout_constraintLeft_toLeftOf="@id/bg_top_control"
+            app:layout_constraintRight_toRightOf="@id/bg_top_control"
+            app:layout_constraintBottom_toTopOf="@id/btn_camera_switch"
+            app:layout_constraintTop_toTopOf="@id/bg_top_control"
+            app:srcCompat="@drawable/ic_flashlight_on" />
+
         <androidx.camera.view.PreviewView
             android:id="@+id/cam_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/bg_top_control"
             app:layout_constraintRight_toLeftOf="@id/rc_images" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -40,18 +74,6 @@
             tools:itemCount="1"
             tools:listitem="@layout/item_selected_image"
             tools:orientation="vertical" />
-
-
-        <ImageView
-            android:id="@+id/btn_camera_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{()->activity.cameraSwitch()}"
-            android:visibility="@{activity.builder.lensFacingSwitcher ? View.VISIBLE : View.GONE }"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/btn_camera_capture"
-            app:layout_constraintStart_toStartOf="@id/btn_camera_capture"
-            app:srcCompat="@drawable/ic_cameraswitch" />
 
         <include
             android:id="@+id/btn_camera_capture"
