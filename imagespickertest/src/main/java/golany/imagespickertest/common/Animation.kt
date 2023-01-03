@@ -26,8 +26,15 @@ object Animation {
         }.start()
     }
 
-    fun slideShow(view: View, isVertical: Boolean, showDimen: Int, doOnEnd: () -> Unit = {}){ slide(view, isVertical, 0, showDimen, doOnEnd) }
+    fun slideShow(view: View, isVertical: Boolean, showDimen: Int, doOnEnd: () -> Unit = {}){
+        view.visibility = View.VISIBLE
+        slide(view, isVertical, 0, showDimen, doOnEnd)
+    }
 
-    fun slideHide(view: View, isVertical: Boolean, showDimen: Int){ slide(view, isVertical, showDimen, 0) }
+    fun slideHide(view: View, isVertical: Boolean, showDimen: Int){
+        slide(view, isVertical, showDimen, 0){
+            view.visibility = View.GONE
+        }
+    }
 
 }

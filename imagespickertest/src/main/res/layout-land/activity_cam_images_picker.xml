@@ -7,81 +7,77 @@
         <variable
             name="activity"
             type="golany.imagespickertest.ui.CamImagesPickerActivity" />
+
         <variable
             name="viewModel"
             type="golany.imagespickertest.viewmodel.CamImagesPickerViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
         android:background="@color/black"
+        android:orientation="horizontal"
         tools:context=".ui.imagespicker.CamImagesPickActivity">
 
         <androidx.camera.view.PreviewView
             android:id="@+id/cam_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
-
-        </androidx.camera.view.PreviewView>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/rc_images" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rc_images"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingLeft="5dp"
             android:orientation="vertical"
+            android:paddingLeft="5dp"
             app:images="@{viewModel.images}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_selected_image"
+            app:layout_constraintLeft_toRightOf="@id/cam_view"
+            app:layout_constraintRight_toLeftOf="@id/btn_camera_capture"
             tools:itemCount="1"
+            tools:listitem="@layout/item_selected_image"
             tools:orientation="vertical" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/down_controller"
+
+        <ImageView
+            android:id="@+id/btn_camera_switch"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="5dp"
-            android:paddingVertical="16dp">
+            android:layout_height="wrap_content"
+            android:onClick="@{()->activity.cameraSwitch()}"
+            android:visibility="@{activity.builder.lensFacingSwitcher ? View.VISIBLE : View.GONE }"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/btn_camera_capture"
+            app:layout_constraintStart_toStartOf="@id/btn_camera_capture"
+            app:srcCompat="@drawable/ic_cameraswitch" />
 
-            <ImageView
-                android:id="@+id/btn_camera_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{()->activity.cameraSwitch()}"
-                android:visibility="@{activity.builder.lensFacingSwitcher ? View.VISIBLE : View.GONE }"
-                app:srcCompat="@drawable/ic_cameraswitch"
-                app:layout_constraintStart_toStartOf="@id/btn_camera_capture"
-                app:layout_constraintEnd_toEndOf="@id/btn_camera_capture"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+        <include
+            android:id="@+id/btn_camera_capture"
+            layout="@layout/button_capture"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="24dp"
+            app:activity="@{activity}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/rc_images"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <include
-                layout="@layout/button_capture"
-                android:id="@+id/btn_camera_capture"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginBottom="24dp"
-                app:activity="@{activity}"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:onClick="@{()->activity.confirmClick()}"
+            android:text="확인"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/btn_camera_capture"
+            app:layout_constraintStart_toStartOf="@id/btn_camera_capture"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/btn_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:text="확인"
-                android:onClick="@{()->activity.confirmClick()}"
-                android:textColor="@color/white"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="@id/btn_camera_capture"
-                app:layout_constraintEnd_toEndOf="@id/btn_camera_capture"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
