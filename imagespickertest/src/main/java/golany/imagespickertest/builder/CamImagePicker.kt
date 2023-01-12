@@ -23,7 +23,7 @@ class CamImagePicker {
     @Parcelize
     class Builder(
         @IgnoredOnParcel
-        private val context: Context? = null,
+        private var context: Context? = null,
         var showCount: Boolean = true,
         internal var minCount: Int = 0,
         internal var maxCount: Int = Int.MAX_VALUE,
@@ -54,6 +54,8 @@ class CamImagePicker {
         fun selectedImages(images: List<Uri>): Builder = apply{
             this.selectedImages = images
         }
+
+        fun with(context: Context): Builder = apply { this.context = context }
 
         fun startGetImages(action: (List<Uri>) -> Unit) {
 
