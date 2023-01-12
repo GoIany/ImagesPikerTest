@@ -1,5 +1,6 @@
 package golany.imagespickertest.ui
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -60,12 +61,14 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
             }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(
             binding.apply {
                 activity = this@CamImagesPickerActivity
                 viewModel = this@CamImagesPickerActivity.viewModel
+                lifecycleOwner = this@CamImagesPickerActivity
             }.root
         )
 

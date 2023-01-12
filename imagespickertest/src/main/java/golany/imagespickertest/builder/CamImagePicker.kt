@@ -24,8 +24,7 @@ class CamImagePicker {
     class Builder(
         @IgnoredOnParcel
         private val context: Context? = null,
-        var showNowCount: Boolean = true,
-        var showMinMaxCount: Boolean = true,
+        var showCount: Boolean = true,
         internal var minCount: Int = 0,
         internal var maxCount: Int = Int.MAX_VALUE,
         var isLensFacingBack: Boolean = true,
@@ -35,9 +34,7 @@ class CamImagePicker {
         internal var selectedImages: List<Uri> = listOf()
     ) : Parcelable {
 
-        fun showNowCount(value: Boolean): Builder = apply { showNowCount = value }
-
-        fun showMinMaxCount(value: Boolean): Builder = apply{ showMinMaxCount = value }
+        fun showCount(value: Boolean): Builder = apply{ showCount = value }
 
         fun min(value: Int): Builder = apply { minCount = value }
 
