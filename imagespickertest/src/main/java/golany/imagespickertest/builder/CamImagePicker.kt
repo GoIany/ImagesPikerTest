@@ -27,6 +27,9 @@ class CamImagePicker {
         var showCount: Boolean = true,
         internal var minCount: Int = 0,
         internal var maxCount: Int = Int.MAX_VALUE,
+        var textConfirm: String? = null,
+        var textUnderMin: String? = null,
+        var textOverMax: String? = null,
         var isLensFacingBack: Boolean = true,
         var lensFacingSwitcher: Boolean = true,
         internal var orientationVertical: Boolean = true,
@@ -41,6 +44,29 @@ class CamImagePicker {
         fun max(value: Int): Builder = apply { maxCount = value }
 
         fun getMinMaxText(): String = "$minCount ~ $maxCount"
+
+        /**
+         *  @param confirm text of confirm button
+         *  @param underMin text of under minimum toast
+         *
+         *  '%d' will be change to minCount
+         *
+         *  ex) "under minimum (%d)" -> "under minimum (2)"
+         *  @param overMax text of over maximum toast
+         *
+         *  '%d' will be change to maxCount
+         *
+         *  ex) "over maximum (%d)" -> "over maximum (2)"
+         */
+        fun setTexts(
+            confirm: String? = null,
+            underMin: String? = null,
+            overMax: String? = null
+        ): Builder = apply {
+            textConfirm = confirm
+            textUnderMin = underMin
+            textOverMax = overMax
+        }
 
         fun isLensFacingBack(value: Boolean): Builder = apply { isLensFacingBack = value }
 

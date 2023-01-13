@@ -166,7 +166,10 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
                 }
             )
         }else{
-            toast(getString(R.string.toast_over_max, builder.maxCount))
+            toast(
+                builder.textOverMax?.replace("%d", builder.maxCount.toString()) ?:
+                getString(R.string.toast_over_max, builder.maxCount)
+            )
         }
     }
 
@@ -180,7 +183,10 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
 
     fun confirmClick(){
         if(!viewModel.checkMinCount(builder.minCount)){
-            toast(getString(R.string.toast_under_min, builder.minCount))
+            toast(
+                builder.textUnderMin?.replace("%d", builder.minCount.toString()) ?:
+                getString(R.string.toast_under_min, builder.minCount)
+            )
         }else {
             val data = Intent().apply {
                 putParcelableArrayListExtra(

@@ -95,7 +95,7 @@
             android:background="@android:color/transparent"
             android:onClick="@{()->activity.confirmClick()}"
             android:gravity="right|center"
-            android:text="@{(activity.builder.showCount ? (viewModel.imagesSize + ` / ` + activity.builder.getMinMaxText() + `\n` ) : ``) + `확인`}"
+            android:text="@{(activity.builder.showCount ? (viewModel.imagesSize + ` / ` + activity.builder.getMinMaxText() + `\n` ) : ``) + ((activity.builder.textConfirm == null) ? @string/confirm : activity.builder.textConfirm)}"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@id/btn_camera_capture"
             app:layout_constraintStart_toStartOf="@id/btn_camera_capture"
