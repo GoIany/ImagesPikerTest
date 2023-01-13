@@ -1,4 +1,5 @@
 <resources>
-    <string name="toast_under_min">최소 이미지수량(%d) 미달</string>
-    <string name="toast_over_max">최대 이미지수량(%d) 초과</string>
+    <string name="toast_under_min">under minimum quantity(%d)</string>
+    <string name="toast_over_max">over max quantity(%d)</string>
+    <string name="confirm">confirm</string>
 </resources>
