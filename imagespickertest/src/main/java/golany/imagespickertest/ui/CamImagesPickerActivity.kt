@@ -138,18 +138,23 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
         }
     }
 
+    private var isCapturing = false
     fun cameraCaptured(){
         if(viewModel.checkMaxCount(builder.maxCount)) {
+            if(isCapturing) return
+            else isCapturing = true
+
             val file = File(this.cacheDir, "${UUID.randomUUID()}")
             val outputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()
 
             imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this),
                 object : ImageCapture.OnImageSavedCallback {
                     override fun onError(error: ImageCaptureException) {
-
+                        isCapturing = false
                     }
 
                     override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                        isCapturing = false
                         outputFileResults.savedUri?.let {
                             sound.playShutter()
                             binding.camView.startAnimation(
