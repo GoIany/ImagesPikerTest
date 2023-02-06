@@ -144,7 +144,7 @@ internal class CamImagesPickerActivity : AppCompatActivity() {
             if(isCapturing) return
             else isCapturing = true
 
-            val file = File(this.cacheDir, "${UUID.randomUUID()}")
+            val file = File(builder.filePath ?: this.cacheDir, builder.fileName(viewModel.imagesSize.value ?: 0))
             val outputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()
 
             imageCapture.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this),

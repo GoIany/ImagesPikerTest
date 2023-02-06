@@ -11,6 +11,8 @@ import golany.imagespickertest.ui.CamImagesPickerActivity
 import golany.imagespickertest.common.Const
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
+import java.io.File
+import java.util.*
 
 class CamImagePicker {
 
@@ -34,7 +36,9 @@ class CamImagePicker {
         var lensFacingSwitcher: Boolean = true,
         internal var orientationVertical: Boolean = true,
         internal var orientationFix: Boolean = false,
-        internal var selectedImages: List<Uri> = listOf()
+        internal var selectedImages: List<Uri> = listOf(),
+        internal var filePath: File? = null,
+        internal var fileName: (Int) -> String = { UUID.randomUUID().toString() }
     ) : Parcelable {
 
         fun showCount(value: Boolean): Builder = apply{ showCount = value }
@@ -79,6 +83,15 @@ class CamImagePicker {
 
         fun selectedImages(images: List<Uri>): Builder = apply{
             this.selectedImages = images
+        }
+
+        /**
+         *  @param filePath file directory to save image default(ContextWrapper.cacheDir)
+         *  @param fileName lambda that receive imageIndex(begin 0) and return fileName
+         */
+        fun filePath(filePath: File, fileName: (Int) -> String): Builder = apply{
+            this.filePath = filePath
+            this.fileName = fileName
         }
 
         fun with(context: Context): Builder = apply { this.context = context }
