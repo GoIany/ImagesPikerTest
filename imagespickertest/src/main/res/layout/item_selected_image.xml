@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="5dp"
+        android:layout_width="@dimen/selected_image_length"
+        android:layout_height="@dimen/selected_image_length"
+        android:padding="5dp"
         tools:srcCompat="@tools:sample/avatars"/>
 
     <ImageButton

@@ -37,7 +37,7 @@ class UrisAdapter() : ListAdapter<Uri, UrisAdapter.ViewHolder>(DiffUtilCallback(
                 val isVertical = recyclerView.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
                 val rvLength = recyclerView.resources.getDimensionPixelSize(R.dimen.selected_images_recyclerview_length)
 
-                if(previousList.size == 0) Animation.slideShow(recyclerView, isVertical, rvLength) { notifyDataSetChanged() }
+                if(previousList.size == 0) Animation.slideShow(recyclerView, isVertical, rvLength)
                 else Animation.slideHide(recyclerView, isVertical, rvLength)
             }
         } else if(currentList.size - previousList.size == 1){
@@ -70,6 +70,8 @@ class UrisAdapter() : ListAdapter<Uri, UrisAdapter.ViewHolder>(DiffUtilCallback(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+        //code to show recyclerViews childView when animate slide up
+        holder.itemView.layoutParams.height = holder.itemView.resources.getDimensionPixelSize(R.dimen.selected_image_length)
     }
 
     class DiffUtilCallback : DiffUtil.ItemCallback<Uri>(){
