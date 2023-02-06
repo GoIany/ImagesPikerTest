@@ -91,7 +91,7 @@ fun RecyclerView?.setImages(
     val adapter = (adapter as? UrisAdapter) ?: UrisAdapter()
         .apply {
             this.imgDelete = {
-                images.value?.remove(it)
+                images.value = images.value?.apply { remove(it) }
                 submitList(images.value?.toMutableList())
                 it?.deleteFile()
             }
